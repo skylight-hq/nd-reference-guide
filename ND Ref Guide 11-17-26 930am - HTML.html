@@ -1,0 +1,488 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>ND Medicaid Work Requirements Caseworker Reference Guide 11-17-26 930am</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: caseworker tool. Steps on the left, live narrative pinned on the right; stacks on phones. Colors follow ND HHS (navy, rust, link blue, warm gray). */
+:root{
+  --bg:#FFFFFF; --beige:#EFEDE8; --surface:#FFFFFF; --ink:#1F2328; --muted:#555A60; --line:#DDDDD6;
+  --navy:#1E3F67; --navy-ink:#FFFFFF; --rust:#BF4F33; --rust-ink:#FFFFFF; --band:#BFE0E3;
+  --look:#E8F1F7; --look-edge:#377DAA;
+  --ok:#E3F0DA; --ok-edge:#5B8C3A; --ok-ink:#24501A;
+  --notsub:#E1E8F0; --notsub-edge:#1E3F67; --notsub-ink:#1E3F67;
+  --warn:#FBF0DD; --warn-edge:#B08A3E; --warn-ink:#6B4E12;
+  --bad:#F6DAD3; --bad-edge:#BF4F33; --bad-ink:#7A2A17;
+  --nd:#9C5700; --focus:#377DAA;
+  --font-body:"Open Sans",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14181D; --beige:#242A31; --surface:#1C2228; --ink:#E8EAEC; --muted:#A8AFB6; --line:#343B43;
+  --navy:#3C6597; --navy-ink:#FFFFFF; --rust:#D0674B; --rust-ink:#1A0E09; --band:#2C4A4D;
+  --look:#1B2E3C; --look-edge:#6FA8D2;
+  --ok:#1E3320; --ok-edge:#6FB04C; --ok-ink:#BFE5AE;
+  --notsub:#1D2A3A; --notsub-edge:#7C9CC6; --notsub-ink:#CBD9EC;
+  --warn:#352B18; --warn-edge:#C9A14F; --warn-ink:#F0D79F;
+  --bad:#3A221C; --bad-edge:#D0674B; --bad-ink:#F3C8BC;
+  --nd:#E0A050; --focus:#6FA8D2; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14181D; --beige:#242A31; --surface:#1C2228; --ink:#E8EAEC; --muted:#A8AFB6; --line:#343B43;
+  --navy:#3C6597; --navy-ink:#FFFFFF; --rust:#D0674B; --rust-ink:#1A0E09; --band:#2C4A4D;
+  --look:#1B2E3C; --look-edge:#6FA8D2;
+  --ok:#1E3320; --ok-edge:#6FB04C; --ok-ink:#BFE5AE;
+  --notsub:#1D2A3A; --notsub-edge:#7C9CC6; --notsub-ink:#CBD9EC;
+  --warn:#352B18; --warn-edge:#C9A14F; --warn-ink:#F0D79F;
+  --bad:#3A221C; --bad-edge:#D0674B; --bad-ink:#F3C8BC;
+  --nd:#E0A050; --focus:#6FA8D2; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+header{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:2px solid var(--ink)}
+body::after{content:"";position:fixed;inset:0 0 auto;height:calc(6px + env(safe-area-inset-top,0px));background:var(--band);z-index:5}
+h1{font-size:1.7rem;font-weight:600;margin:0;line-height:1.2;text-wrap:balance;color:var(--ink)}
+.sub{margin:4px 0 0;color:var(--muted)}
+.draft{font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--nd);border:1px solid var(--nd);border-radius:4px;padding:3px 8px}
+.privacy{background:var(--beige);border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:.88rem;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.privacy strong{color:var(--ink)}
+.howto{background:var(--beige);border:1px solid var(--line);border-radius:8px;padding:12px 16px;font-size:.9rem;display:flex;flex-direction:column;gap:6px}
+.howto h2{margin:0;font-size:1rem}
+.howto p,.howto ol{margin:0}.howto ol{padding-left:20px;display:flex;flex-direction:column;gap:2px}
+.howto-warn{border-top:1px solid var(--line);padding-top:8px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:20px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:minmax(0,1fr)}}
+.steps{display:flex;flex-direction:column;gap:14px;min-width:0}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.step-h{background:var(--navy);color:var(--navy-ink);padding:10px 16px;display:flex;gap:12px;align-items:baseline}
+.step-h .n{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.85;white-space:nowrap}
+.step-h h2{font-size:1.02rem;margin:0;line-height:1.35;text-wrap:balance}
+.step-p{background:var(--look);border-bottom:1px solid var(--line);padding:8px 16px}
+.step-p details.policy{border:0;padding:0;border-radius:0}
+.step-p details.policy[open]{padding-bottom:6px}
+.step-p details.policy summary{font-size:.86rem}
+.step-b{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.hint{font-size:.85rem;color:var(--muted);margin:0}
+.choices{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.choice{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border-top:1px solid var(--line);cursor:pointer}
+.choice:first-child{border-top:0}
+.choice:hover{background:var(--beige)}
+.choice input{width:20px;height:20px;margin:1px 0 0;flex:none;accent-color:var(--navy)}
+.choice span{min-width:0}
+.choice.none{background:var(--beige);font-weight:600}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{font:inherit;font-weight:600;border:1px solid var(--navy);background:var(--surface);color:var(--ink);border-radius:6px;padding:8px 14px;cursor:pointer}
+.htext{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.btn.reset{background:var(--rust);border-color:var(--rust);color:var(--rust-ink);margin-top:6px}
+.btn.primary{background:var(--navy);border-color:var(--navy);color:var(--navy-ink)}
+.btn[aria-pressed="true"]{background:var(--navy);color:var(--navy-ink)}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible,.choice:focus-within{outline:2px solid var(--focus);outline-offset:2px}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:.88rem;font-weight:600}
+label.f:has(.mp),label.f:has(#renewMonth){max-width:420px}
+.mp{display:flex;gap:8px;flex-wrap:wrap}
+.mp select{min-width:0}
+input[type=number],input[type=month],select,textarea{font:inherit;font-weight:400;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 9px}
+input[type=number]{width:110px;font-variant-numeric:tabular-nums}
+textarea{width:100%;min-height:58px;resize:vertical}
+.look{background:var(--look);border-left:4px solid var(--look-edge);border-radius:4px;padding:8px 12px;font-size:.88rem}
+.look b.k{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--look-edge)}
+.look .m{font-weight:700}
+.wr{display:flex;flex-direction:column;gap:8px}
+.wr .opt{border:1px solid var(--warn-edge);background:var(--warn);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.wr .opt>label{display:flex;gap:10px;align-items:center;font-weight:700;color:var(--warn-ink);cursor:pointer}
+.wr .opt>label input{width:20px;height:20px;accent-color:var(--navy)}
+.opthead{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.opthead label{display:flex;gap:10px;align-items:center;font-weight:700;color:var(--warn-ink);cursor:pointer}
+.opthead input{width:20px;height:20px;accent-color:var(--navy)}
+.badge{font-size:.8rem;font-weight:700;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.badge.yes{background:var(--ok);color:var(--ok-ink);border:1px solid var(--ok-edge)}
+.badge.no{background:var(--surface);color:var(--muted);border:1px solid var(--line)}
+.wr .or{text-align:center;font-size:.78rem;font-weight:700;letter-spacing:.1em;color:var(--warn-ink)}
+.hours{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.hours label{font-size:.82rem;font-weight:600;display:flex;flex-direction:column;gap:3px}
+.hours input{width:100%}
+.total{font-variant-numeric:tabular-nums;font-weight:700}
+details.policy{border:1px dashed var(--line);border-radius:8px;padding:6px 12px;font-size:.88rem}
+details.policy summary{cursor:pointer;font-weight:600;color:var(--navy)}
+:root[data-theme="dark"] details.policy summary{color:var(--look-edge)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) details.policy summary{color:var(--look-edge)}}
+details.policy ul{margin:8px 0 4px;padding-left:20px}
+.plink{margin:4px 0 6px;font-weight:600}
+.plink a{color:inherit}
+.nd{color:var(--nd);font-weight:600}
+.result{border-radius:10px;padding:14px 16px;border:2px solid;display:flex;flex-direction:column;gap:6px}
+.result h2{margin:0;font-size:1.1rem}
+.result p{margin:0}
+.result.inline{padding:10px 12px;border-width:1px;font-size:.92rem;gap:4px}
+.result.inline .small{font-size:.85rem;opacity:.9}
+.r-notsub{background:var(--notsub);border-color:var(--notsub-edge);color:var(--notsub-ink)}
+.r-ok{background:var(--ok);border-color:var(--ok-edge);color:var(--ok-ink)}
+.r-warn{background:var(--warn);border-color:var(--warn-edge);color:var(--warn-ink)}
+.r-bad{background:var(--bad);border-color:var(--bad-edge);color:var(--bad-ink)}
+.notes{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--beige);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.notes h2{margin:0;font-size:1rem}
+.notes pre{margin:0;font-family:var(--font-mono);font-size:.8rem;line-height:1.55;white-space:pre-wrap;word-break:break-word;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px;max-height:max(200px,calc(100vh - 340px));overflow:auto}
+.status{font-size:.82rem;color:var(--ok-ink);min-height:1.2em}
+.policybar{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:.88rem;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.policybar a{text-decoration:none}
+.tip{background:var(--beige);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:.85rem}
+.tip b{color:var(--nd)}
+details.policy[open]{padding-bottom:10px}
+.ptwrap{overflow-x:auto;margin-top:8px}
+.btn-sub{display:block;font-size:.75rem;font-weight:400;opacity:.85}
+.tried{background:var(--beige);border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:.88rem}
+.tried ul{margin:4px 0 0;padding-left:18px}
+.sechead{margin:6px 0 -4px;font-weight:700;font-size:1rem;color:var(--navy)}
+.flabel{font-weight:600;font-size:.9rem}
+.linkbtn{background:none;border:0;padding:0;color:var(--look-edge);text-decoration:underline;cursor:pointer;font:inherit;font-size:.88rem;align-self:flex-start}
+.srcrow{padding:0 12px 10px 44px;background:inherit}
+.srcrow label{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.85rem;font-weight:600}
+.srcrow select{width:auto;min-width:0;max-width:100%;font-size:.88rem;padding:4px 8px}
+.sub .srcrow{padding-left:32px}
+.opt .srcrow{padding:8px 0 0}
+.tip-in{margin:0 12px 10px 44px;font-size:.82rem}
+.srcnote{font-size:.8rem;margin:0}
+.subhead{padding:10px 12px 2px;border-top:1px solid var(--line);font-size:.95rem}
+.sub{padding:2px 12px 8px 36px;background:var(--surface)}
+.sub .choice{padding:6px 0;border-top:0}
+.sub .hint{margin:4px 0}
+.lbl-hint{display:block;font-weight:400;font-size:.85rem;color:var(--muted)}
+.cnote{display:block;font-size:.8rem;margin-top:3px}
+.ptable{border-collapse:collapse;width:100%;min-width:560px;font-size:.84rem;line-height:1.4}
+.ptable th,.ptable td{border:1px solid var(--line);padding:8px 10px;vertical-align:top;text-align:left}
+.ptable thead th{background:var(--navy);color:var(--navy-ink);font-weight:600}
+.ptable tbody th{font-weight:600;background:var(--beige)}
+.ptable td{background:var(--surface)}
+.ptable p{margin:0 0 6px}.ptable p:last-child{margin:0}.ptable ol{margin:4px 0 0;padding-left:18px}
+.ptwrap+.ptwrap{margin-top:12px}
+details.policy .pnote{margin:8px 0 4px}
+details.policy .plabel{margin:6px 0 0;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.chipnone{font-weight:400;font-style:italic}
+.chip{display:inline-block;background:var(--look);border-left:4px solid var(--look-edge);border-radius:4px;padding:4px 10px;font-size:.85rem;font-weight:600}
+.example{background:var(--warn);border:1px solid var(--warn-edge);color:var(--warn-ink);border-radius:8px;padding:8px 12px;font-size:.88rem;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+
+</style></head><body>
+
+<div class="wrap">
+  <header>
+    <div class="htext">
+      <h1>ND Medicaid Work Requirements Caseworker Reference Guide</h1>
+      <p class="sub">Caseworker guide. Answer each step, and the case narrative writes itself as you go.</p>
+      <button class="btn reset" id="topReset" type="button">&#8634; Start over (new case)</button>
+    </div>
+    <span class="draft">Draft for review &middot; Updated 11-17-26 9:30am</span>
+  </header>
+
+  <section class="howto" aria-labelledby="howtoH">
+   <h2 id="howtoH">How to use this guide</h2>
+   <p>This is a reference guide to use while you work through a case. It is <strong>not</strong> part of the eligibility system and does not make the decision for you.</p>
+   <ol>
+    <li>Start with application or review. The guide figures out the lookback period.</li>
+    <li>Answer one step at a time. When a step gives a result, you can stop there.</li>
+    <li>The narrative on the right writes itself as you go. Copy it and paste it into the eligibility system.</li>
+    <li>Click <b>Start over</b> before the next case.</li>
+   </ol>
+   <p class="howto-warn"><strong>Nothing you enter is saved or sent.</strong> Close the page and it's gone. Don&rsquo;t enter names or case numbers.</p>
+  </section>
+
+  <div class="grid">
+    <main class="steps" id="steps"></main>
+    <aside class="notes" aria-live="polite">
+      <h2>Narrative</h2>
+      <p class="hint">Updates as you answer. Copy and paste into the system narrative. Add your own notes in each step.</p>
+      <div id="lbChip"></div>
+      <pre id="notesOut"></pre>
+      <div class="row"><button class="btn primary" id="copyBtn" type="button">Copy narrative</button><button class="btn" id="resetBtn" type="button">Start over</button></div>
+      <div class="status" id="copyStatus"></div>
+    </aside>
+  </div>
+</div>
+
+<script>
+const EXCL=[
+ ['aian','American Indian/Alaska Native (enrolled member of a federally recognized tribe)'],
+ ['vet','Veteran with 100% disability'],
+ ['care','Parent, guardian, caretaker relative, or family caregiver of a child under 14 or a disabled person'],
+ ['frail','Disabled or not able to work due to special health needs (e.g., blind or disabled; substance use disorder; disabling mental disorder; or serious or complex condition)'],
+ ['sud','Participating in a drug or alcohol treatment program'],
+ ['tanf','Complying with TANF work requirements'],
+ ['snap','In a SNAP household and subject to SNAP work requirements'],
+ ['preg','Pregnant or postpartum coverage'],
+ ['foster','In foster care at age 18 and now younger than 26'],
+ ['inmate','An inmate at a jail or prison']];
+const EXC=[
+ ['u19','Under age 19'],
+ ['medicare','Entitled/enrolled in Medicare Part A or B'],
+ ['othermed','Eligible under another Medicaid coverage'],
+ ['jail','Was in jail or prison at any time in the 4 months before the application or review month (for example: applied in June &rarr; check February through May)'],
+ ['pastexcl','Any List 1 exclusion that was true for all or part of the lookback period']];
+const SOURCES=['','Data match (ex parte)','What the person reported','Proof the person sent','Not verified yet (need proof)'];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function blank(){return{tried:[],src:{},type:'',rvKind:'',lastCert:'',manual:false,pastWhich:[],appMonth:'',renewMonth:'',certStart:'',certEnd:'',s1:'',excl:[],exclNone:false,exclSrc:'',exc:[],excNone:false,excSrc:'',
+ h:{work:'',prog:'',edu:'',comm:''},inc:'',seasonal:false,sm:['','','','','',''],incOk:false,hrsOk:false,school:false,wrNone:false,wrSrc:'',noticeDate:'',s5:'',notes:{}};}
+function example(){const s=blank();Object.assign(s,{type:'renewal',lastApproved:'2026-06',renewDue:'2026-12',renewMonth:'2026-08',s1:'yes',exclNone:true,exclSrc:'Data match (ex parte)',excNone:true,excSrc:'Data match (ex parte)',
+ h:{work:'60',prog:'',edu:'',comm:'24'},wrSrc:'Proof the person sent'});s.notes={4:'Pay stubs and food pantry volunteer log, both for August.'};return s;}
+let S=blank(), isExample=false;
+
+const fmtMonth=v=>{if(!v)return'';const[y,m]=v.split('-').map(Number);return MONTHS[m-1]+' '+y;};
+const prevMonth=v=>{if(!v)return'';let[y,m]=v.split('-').map(Number);m-=1;if(m===0){m=12;y-=1;}return y+'-'+String(m).padStart(2,'0');};
+const RV6='2027-01';
+function rvLen(){return S.lastCert&&S.lastCert>=RV6?6:12;}
+function rvManual(){return S.rvKind==='desk'||S.manual;}
+function span(a,n){const out=[];let[y,m]=a.split('-').map(Number);for(let g=0;g<n;g++){out.push(y+'-'+String(m).padStart(2,'0'));m++;if(m>12){m=1;y++;}}return out;}
+function win(){if(S.type!=='review'||!S.rvKind)return[];
+ if(rvManual()){if(!S.certStart||!S.certEnd)return[];const out=[];let[y,m]=S.certStart.split('-').map(Number);const[ey,em]=S.certEnd.split('-').map(Number);let g=0;while((y<ey||(y===ey&&m<=em))&&g<36){out.push(y+'-'+String(m).padStart(2,'0'));m++;if(m>12){m=1;y++;}g++;}return out;}
+ return S.lastCert?span(S.lastCert,rvLen()):[];}
+const exMonth=()=>S.type==='application'?'application month':'review month';
+const exMonthDate=()=>S.type==='application'?S.appMonth:'';
+const lastDay=v=>{const[y,m]=v.split('-').map(Number);return new Date(y,m,0).getDate();};
+function lookback(){if(S.type==='application')return S.appMonth?fmtMonth(prevMonth(S.appMonth)):'';if(S.type==='review')return S.renewMonth?fmtMonth(S.renewMonth):'';return'';}
+const num=v=>{const n=parseFloat(v);return isNaN(n)?0:n;};
+const hoursTotal=()=>num(S.h.work)+num(S.h.prog)+num(S.h.edu)+num(S.h.comm);
+function seasAvg(){const v=S.sm.filter(x=>x!=='').map(num);return v.length===6?Math.round(v.reduce((a,b)=>a+b,0)/6):null;}
+function incCalc(){return S.seasonal?(seasAvg()!==null&&seasAvg()>=580):num(S.inc)>=580;}
+const incEntered=()=>S.seasonal?S.sm.some(x=>x!==''):S.inc!=='';
+const hrsEntered=()=>Object.values(S.h).some(v=>v!=='');
+function incMet(){return incEntered()?incCalc():S.incOk;}
+function hrsMet(){return hrsEntered()?hoursTotal()>=80:S.hrsOk;}
+function metKeys(){const r=[];if(incMet())r.push('wr-inc');if(S.school)r.push('wr-school');if(hrsMet())r.push('wr-hrs');return r;}
+function wrMet(){const r=[];if(hrsMet())r.push(hoursTotal()>=80?'80 hours combined ('+hoursTotal()+' hours)':'80 hours combined (confirmed)');
+ if(incMet())r.push(!incCalc()?'$580 or more monthly ACA household income (confirmed)':(S.seasonal?'Seasonal worker: average monthly household income $'+seasAvg().toLocaleString():'Monthly ACA household income $'+num(S.inc).toLocaleString()));
+ if(S.school)r.push('Enrolled in school at least half-time');return r;}
+
+function outcome(){
+ if(!S.type)return{stop:0};
+ if(!(S.type==='application'?S.appMonth:S.renewMonth))return{stop:0};
+ if(!S.s1)return{stop:1};
+ if(S.s1==='no')return{stop:1,res:'notsub1'};
+ if(!S.excl.length&&!S.exclNone)return{stop:2};
+ if(S.excl.length)return{stop:2,res:'notsub2'};
+ if(!S.exc.length&&!S.excNone)return{stop:3};
+ if(S.exc.length)return{stop:3,res:'deemed'};
+ const met=wrMet();
+ if(met.length)return{stop:4,res:metKeys().every(k=>S.src[k]==='Not verified yet (need proof)')?'pending':'meets'};
+ if(!S.wrNone)return{stop:4};
+ if(!S.s5)return{stop:5};
+ return{stop:5,res:S.s5==='proof'?'meets5':'noteligible'};
+}
+function monthSummary(){const o=outcome();
+ if(o.res==='meets'||o.res==='meets5')return'meets work requirements';
+ if(o.res==='pending')return'needs verification';
+ if(o.res==='deemed')return'deemed compliant (mandatory exception)';
+ if(S.wrNone||o.res==='noteligible')return'no requirement or exception met';
+ return'not finished';}
+function switchMonth(v){
+ if(S.renewMonth&&v!==S.renewMonth&&(S.exc.length||S.excNone||S.wrNone||wrMet().length)){
+  S.tried=S.tried.filter(t=>t.m!==S.renewMonth);S.tried.push({m:S.renewMonth,r:monthSummary()});
+  Object.assign(S,{exc:[],excNone:false,pastWhich:[],h:{work:'',prog:'',edu:'',comm:''},inc:'',seasonal:false,sm:['','','','','',''],incOk:false,hrsOk:false,school:false,wrNone:false,noticeDate:'',s5:''});
+  Object.keys(S.src).forEach(k=>{if(/^(exc-|pw-|wr-|wrNone)/.test(k))delete S.src[k];});
+  ['n3','n4','n5',3,4,5].forEach(k=>{if(S.notes)delete S.notes[k];});}
+ S.renewMonth=v;}
+const RES={
+ notsub1:['r-notsub','Person is NOT subject to Medicaid work requirements','Not in Medicaid Expansion (ages 19 to 64). No further steps.'],
+ notsub2:['r-notsub','Person is NOT subject to Medicaid work requirements','An exclusion is true for the application or review month. No further steps.'],
+ deemed:['r-ok','Person is deemed compliant with work requirements','A mandatory exception was true in the lookback period. No proof of activities needed.'],
+ pending:['r-warn','Needs verification','The person reported meeting a requirement, but it isn\u2019t verified yet. Request proof. <span class="nd">[ND to confirm: request for information, or noncompliance notice?]</span>'],
+ meets:['r-ok','Person meets the work requirements','At least one requirement was met in the lookback period.'],
+ meets5:['r-ok','Person meets the work requirements','Proof received within 30 days.'],
+ noteligible:['r-bad','Person does not meet the work requirements','Deny or end coverage, with appeal rights.']};
+
+const YEARS=['2026','2027','2028'];
+const mp=k=>{const[v_y,v_m]=(S[k]||'-').split('-');const y=S['_'+k+'_y']??v_y,m=S['_'+k+'_m']??v_m;
+ return `<span class="mp"><select id="${k}_m" data-mp="${k}" data-part="m" aria-label="Month"><option value="">Month</option>${MONTHS.map((n,i)=>{const v=String(i+1).padStart(2,'0');return`<option value="${v}" ${v===m?'selected':''}>${n}</option>`}).join('')}</select><select id="${k}_y" data-mp="${k}" data-part="y" aria-label="Year"><option value="">Year</option>${YEARS.map(Y=>`<option ${Y===y?'selected':''}>${Y}</option>`).join('')}</select></span>`;};
+const badge=(met,detail,goal)=>met?`<span class="badge yes">&#10003; Meets${detail?' &middot; '+detail:''}</span>`:(detail?`<span class="badge no">Not yet &middot; ${detail}${goal?' (needs '+goal+')':''}</span>`:'');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const policy=(items,topic,tbl,done)=>{const ready=tbl||done;return`<details class="policy"><summary>Policy details for this step: ${topic}${ready?'':' <span class="nd">(to be added)</span>'}</summary>${ready?'':'<p class="nd pnote">[Policy details and manual references (with links) to be added. Examples of what could go here:]</p>'}${items.length?`<ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul>`:''}${tbl||''}</details>`;};
+const ptable=(heads,rows)=>`<div class="ptwrap"><table class="ptable"><thead><tr>${heads.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>i?`<td>${c}</td>`:`<th scope="row">${c}</th>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+const LINK=t=>`${t} <span class="nd">[link to be added]</span>`;
+const T_EXCL=ptable(['Exclusion','Definition','How to verify','Resources'],[
+ ['American Indians and Alaska Natives','Indians, Urban Indians, California Indians, and other Indians who are eligible for Indian Health Services as determined by the HHS Secretary&rsquo;s regulations.','Information from the application, tribal enrollment number, or a letter from the person&rsquo;s tribe.',''],
+ ['Parent, guardian, caretaker relative, or family caregiver of a child under 14 or a disabled person','<p><b>Family caregiver:</b> Adult family member or other person who has a significant relationship with, and who provides a broad range of assistance to, an individual with a chronic or other health condition, disability, or functional limitation.</p><p><b>Guardian:</b> Adult appointed by a court to care for and make personal decisions on behalf of a person who cannot care for themselves.</p><p><b>Parent/caretaker relative:</b> Parent or other relative primarily responsible for a dependent child.</p><p>A parent, guardian, or caretaker relative is exempt from the requirements if there is a child under age 14 living in their home. Multiple adults can use this exclusion if it applies.</p>','<p>Three pathways to family caregiver:</p><ol><li>The person resides with a dependent child or disabled person and provides assistance on a regular basis.</li><li>The person is a relative of a dependent child or disabled individual and provides assistance on a regular basis but does not live with the person they&rsquo;re caring for.</li><li>The person does not reside with and is not a relative of the dependent child or disabled person. They need to provide a written statement or schedule showing that they provide at least 80 hours of care a month.</li></ol>',''],
+ ['In foster care at age 18 and now younger than 26','If a person was previously in foster care and is under the age of 26, they should be eligible for COE M091 and do not need to meet work requirements.','Information from the application, available from the state eligibility system or the foster care agency. For out of state placements: a letter from the child welfare agency or court documents from the other state.',LINK('Assigning Category of Eligibility')],
+ ['Veteran with a total (100%) disability rating','A veteran with a disability rated as total under 38 U.S.C. &sect; 1155 (Authority for schedule for rating disabilities) is a veteran whose service-connected disability or combination of disabilities is evaluated by the Department of Veterans Affairs (VA) as 100% disabling.','Letter from Veteran Affairs stating client&rsquo;s disability rating. Download this letter from VA.gov.',LINK('Veterans Affairs')],
+ ['Disabled or not able to work due to special health needs','This includes people who are blind or who have a substance or alcohol use disorder, a disabling mental disorder, or a physical or intellectual disability that significantly impairs their ability to perform one or more activities of daily living. This definition also includes people with serious or complex medical conditions. The person&rsquo;s disability must impair their ability to work, volunteer, or go to school.','Potential claims data and medical records. The SFN 120, linked under resources, is the Medically Frail Exclusion form. Send completed SFN 120 forms to the medical frailty team for review.',LINK('SFN 120')],
+ ['Compliant with TANF work requirements or members of households that receive SNAP benefits who are not exempt from SNAP work requirements','A person who is currently receiving TANF or SNAP benefits.','Review SPACES eligibility and SNAP/TANF compliance; status should be system automated.',''],
+ ['Participating in a drug or alcohol treatment program','A person who is a resident of a qualifying facility for the purpose of regular participation in a treatment program.','Letter from facility stating recipient&rsquo;s participation.',LINK('Acceptable programs')],
+ ['An inmate at a jail or prison','A person who is an inmate at a jail or prison. <span class="nd">[Note: the federal rule also has a List 2 exception for people released from jail or prison in the past 3 months.]</span>','Interface or third party contact from institution.',''],
+ ['Pregnant or entitled to postpartum medical assistance','A person who states they are pregnant or receiving their 12 months of postpartum MA coverage. Most applicants should have MA PW and not have to follow WR because they are not part of the Expansion group.','Self-attestation/information from the application or review, or letter from medical provider.','']]);
+const T_EXC=ptable(['Expansion exception','Definition','How to verify'],[
+ ['Under the age of 19','Person is under the age of 19','Date of birth'],
+ ['Entitled to or enrolled in Medicare','Medicare Part A and/or Part B','Interface'],
+ ['Open in another coverage category, such as ACA parent/caretaker','ABD SSI, Parent/caretaker, Pregnant woman coverage','SPACES/MMIS lookup'],
+ ['Met one or more of the exclusions in List 1','See List 1 (Step 2)','Proof of exclusion in applicable month']]);
+const T_INC=ptable(['Expansion income requirement','Definition','How to verify'],[
+ ['Have a monthly ACA household income of $580','Per section 6 of the Fair Labor Standards Act: federal minimum wage multiplied by 80 hours, which currently equals $580.','Interface, pay stubs, employer letter'],
+ ['Have an average monthly income over the preceding 6 months that is not less than $580 and is a seasonal worker','The term &ldquo;seasonal worker&rdquo; means a worker who performs labor or services on a seasonal basis as defined by the Secretary of Labor. This includes workers covered by section 500.20(s)(1) of title 29, Code of Federal Regulations, and retail workers employed exclusively during holiday seasons.','Interface, tax return, previous month&rsquo;s pay stubs']]);
+const T_WR=ptable(['Expansion work requirement','Definition','How to verify'],[
+ ['A. Work','This can be paid or unpaid, such as an internship.','Income interfaces <span class="nd">[ND to confirm wording]</span>, pay stubs, letter from employer'],
+ ['B. Volunteer or do community service','Unpaid work activity, often through non-profits or community organizations.','Letter from non-profit/community organization verifying activity and hours worked. Examples of non-profits and community organizations can include charities, religious organizations, schools, hospitals, and homeless shelters.'],
+ ['C. Participate in a work program','Work program in accordance with the meaning given such term in section 6(o)(1) of the Food and Nutrition Act of 2008.','JSND letter verifying participation in WIOA, TAA, or a letter from a state, federal, or local work program stating the name of the work program and number of hours a month participating.'],
+ ['D. Enrolled in education at least half time','Full time: 12+ credits<br>Half time: 6+ credits<br>School includes: high school, GED program, vocational/CTE, college/university','School transcript or enrollment letter stating number of credit hours.']]);
+const lookBox=()=>{const lb=lookback();return`<div><span class="chip">Lookback period: ${lb?esc(lb):'<span class="chipnone">choose it in Start</span>'}</span></div>`;};
+const srcRow=key=>`<div class="srcrow"><label for="src_${key}">How do you know?<select id="src_${key}" data-src="${key}">${SOURCES.map(o=>`<option ${o===(S.src[key]||'')?'selected':''} value="${esc(o)}">${o||'Choose one'}</option>`).join('')}</select></label></div>`;
+const srcNote=`<p class="nd srcnote">[ND to review/revise the &ldquo;How do you know?&rdquo; options.]</p>`;
+const SNAPTIP=`<div class="tip"><b>Different from SNAP:</b> These exclusions may not be the same as SNAP exemptions. Also review the person&rsquo;s SNAP work requirement exemption. <a href="https://www.nd.gov/dhs/policymanuals/SNAP/SNAP.htm#301%20Work%20Registration%20Overview.htm?TocPath=300%2520Work%2520Registration%257C_____1" target="_blank" rel="noopener">SNAP Policy Manual: 301 Work Registration</a></div>`;
+const srcSel=(id,val)=>`<label class="f" for="${id}">How do you know?<select id="${id}" data-k="${id}">${SOURCES.map(o=>`<option ${o===val?'selected':''} value="${esc(o)}">${o||'Choose one'}</option>`).join('')}</select><span class="nd" style="font-size:.8rem">[ND to review/revise the options.]</span></label>`;
+const noteBox=(n)=>`<label class="f" for="note${n}">Your notes for this step (added to the narrative on the right)<textarea id="note${n}" data-note="${n}" placeholder="Optional">${esc(S.notes[n]||'')}</textarea></label>`;
+const step=(n,label,q,body)=>{const m=body.match(/<details class="policy">[\s\S]*?<\/details>/);const pol=m?m[0]:'';if(m)body=body.replace(pol,'');return`<section class="step" aria-labelledby="h${n}"><div class="step-h"><span class="n">${label}</span><h2 id="h${n}">${q}</h2></div>${pol?`<div class="step-p">${pol}</div>`:''}<div class="step-b">${body}</div></section>`;};
+
+function render(){
+ const o=outcome(); let h='';
+ const inl=n=>{if(n===4&&S.wrNone&&!wrMet().length)return`<div class="result inline r-warn" role="status"><p><b>&rarr; Next: Step 5.</b> Send a noncompliance notice. The person has 30 days to show proof.</p></div>`;
+  if(o.stop!==n)return'';
+  if(o.res){const[c,t,d]=RES[o.res];return`<div class="result inline ${c}" role="status"><p><b>&rarr; ${t}.</b> ${d}</p><p class="small">${o.res==='pending'||o.res==='noteligible'?'':'No more steps. '}Complete the &ldquo;How do you know?&rdquo; and &ldquo;Your notes&rdquo; sections for this step, then copy the narrative.</p></div>`;}
+  return'';};
+ const W=win();
+ h+=step(0,'Start','Is this an application or a review?',`
+  <div class="row"><button type="button" class="btn" data-type="application" aria-pressed="${S.type==='application'}">Application <span class="btn-sub">New applicant</span></button><button type="button" class="btn" data-type="review" aria-pressed="${S.type==='review'}">Review <span class="btn-sub">Existing member</span></button></div>
+  ${S.type==='application'?`<p class="sechead">Figure out the lookback period</p><label class="f" for="appMonth_m">Month they applied${mp("appMonth")}</label>${S.appMonth?`<div class="look"><b class="k">Lookback period</b><span class="m">${esc(lookback())}</span>, the calendar month before they applied. For example, if they applied on ${MONTHS[+S.appMonth.split('-')[1]-1]} 4 or ${MONTHS[+S.appMonth.split('-')[1]-1]} 28, the lookback period is ${MONTHS[+prevMonth(S.appMonth).split('-')[1]-1]} 1&ndash;${lastDay(prevMonth(S.appMonth))}.</div>`:''}`:''}
+  ${S.type==='review'?`<div class="f"><span class="flabel">Type of review</span><div class="row"><button type="button" class="btn" data-rv="regular" aria-pressed="${S.rvKind==='regular'}">Regular review</button><button type="button" class="btn" data-rv="desk" aria-pressed="${S.rvKind==='desk'}">Desk review <span class="btn-sub">Acting on a change</span></button></div></div>
+   ${S.rvKind==='regular'&&!S.manual?`
+    <p class="sechead">Figure out the lookback period</p><label class="f" for="lastCert_m">Month and year this person was last certified <span class="lbl-hint">Certified means approved for their current coverage period, at application or their last review.</span>${mp("lastCert")}</label>
+    <button type="button" class="linkbtn" data-manual="1">Enter the lookback months manually instead</button>`:''}
+   ${rvManual()&&S.rvKind?`<p class="sechead">Choose the lookback period</p><p class="hint">${S.rvKind==='desk'?'For a desk review, enter the first and last month of the lookback period (for example, from the start of the review period through the month of the change).':'Enter the first and last month of the lookback period.'}</p>
+    <div class="row" style="align-items:flex-start"><label class="f" for="certStart_m">First month of lookback period${mp("certStart")}</label><label class="f" for="certEnd_m">Last month of lookback period${mp("certEnd")}</label></div>
+    ${S.rvKind==='regular'?`<button type="button" class="linkbtn" data-manual="0">Calculate the lookback months instead</button>`:''}
+    ${!W.length&&S.certStart&&S.certEnd?`<p class="hint nd">The last month should be the same as or after the first month.</p>`:''}`:''}
+   ${W.length?`<div class="look"><b class="k">Months you can check</b><span class="m">${esc(fmtMonth(W[0]))} through ${esc(fmtMonth(W[W.length-1]))}</span> (${W.length} months${rvManual()?'':', because they were certified '+(rvLen()===6?'on or after':'before')+' January 1, 2027'}). Only one month needs to meet a requirement or exception.${rvManual()?' <span class="nd">[ND to confirm which months count.]</span>':`<p class="nd" style="margin:6px 0 0;font-weight:600">[ND to confirm: we&rsquo;re assuming the lookback months are the months since the person was last certified: 6 months if certified on or after January 1, 2027, and 12 months if certified before.]</p>`}</div>
+   <p class="hint">Do data checks (ex parte) before asking for proof.</p>
+   <label class="f" for="renewMonth">${S.tried.length?'Which month are you checking now?':'Which month are you checking first?'} <span class="lbl-hint">If the person doesn&rsquo;t meet a requirement or exception in this month, choose another month. Steps 3 and 4 will clear, and this month will show under &ldquo;Already checked.&rdquo;</span><select id="renewMonth" data-k="renewMonth"><option value="">Choose a month</option>${W.map(v=>{const t=S.tried.find(x=>x.m===v);return`<option value="${v}" ${v===S.renewMonth?'selected':''}>${fmtMonth(v)}${t&&v!==S.renewMonth?' (already checked)':''}</option>`;}).join('')}</select></label>
+   ${['notsub1','notsub2'].includes(outcome().res)?`<p class="hint"><b>This person isn&rsquo;t subject to work requirements, so you don&rsquo;t need to check any lookback months.</b></p>`:''}
+   ${S.tried.filter(t=>t.m!==S.renewMonth).length?`<div class="tried"><b>Already checked:</b><ul>${S.tried.filter(t=>t.m!==S.renewMonth).map(t=>`<li>${esc(fmtMonth(t.m))}: ${esc(t.r)}</li>`).join('')}</ul></div>`:''}`:''}`:''}
+  ${policy(['Application: the lookback period is the calendar month before they applied. Example: if they applied on July 4 or July 28, the lookback period is June 1&ndash;30.','Review: any one calendar month since the person was last certified. That&rsquo;s 6 months if they were certified on or after January 1, 2027, and 12 months if they were certified before. <span class="nd">[ND to confirm: is this right?]</span>','If the person meets an exclusion, exception, or requirement for even one day of a month, it counts for that month.'],'Lookback period','',true)}`);
+ if(o.stop>=1){
+  h+=step(1,'Step 1','Is the person in Medicaid Expansion, ages 19 to 64, or likely to qualify?',`
+   <p class="hint">Medicaid Expansion includes ACA Adult Expansion and ACA Adult 19&ndash;20.</p>
+   <div class="row"><button type="button" class="btn" data-s1="yes" aria-pressed="${S.s1==='yes'}">Yes <span class="btn-sub">In Expansion, 19 to 64<br>(includes ACA Adult 19&ndash;20)</span></button><button type="button" class="btn" data-s1="no" aria-pressed="${S.s1==='no'}">No <span class="btn-sub">Not in Expansion<br>(for example, pregnant or on Medicare)</span></button></div>${inl(1)}
+   ${policy(['ACA Adult Expansion covers adults 19 to 64 who are not pregnant and not entitled to or enrolled in Medicare.','ACA Adult 19&ndash;20 is part of Expansion. ND tracks it separately.','<span class="nd">[ND, please review/revise the content here.]</span>'],'Medicaid Expansion','',true)}
+   ${noteBox(1)}`);
+ }
+ if(o.stop>=2){
+  h+=step(2,'Step 2',`Is any exclusion true for the ${exMonth()}${exMonthDate()?' ('+esc(fmtMonth(exMonthDate()))+')':''}? (List 1)`,`
+   <p class="hint">Check all that are true for the ${exMonth()}. If any are true, the person is not subject to work requirements.</p>
+   ${SNAPTIP}
+   <div class="choices">${EXCL.map(([k,t,n])=>`<label class="choice"><input type="checkbox" data-excl="${k}" ${S.excl.includes(k)?'checked':''}><span>${t}${n?`<span class="nd cnote">${n}</span>`:''}</span></label>${S.excl.includes(k)?srcRow('excl-'+k):''}`).join('')}
+   <label class="choice none"><input type="checkbox" id="exclNone" data-none="excl" ${S.exclNone?'checked':''}><span>None of these are true for the ${exMonth()}</span></label></div>${S.excl.length?srcNote:''}${inl(2)}
+   <p class="hint">True during the lookback period but not for the ${exMonth()} (for example, postpartum coverage ended)? Check "None" here and mark it in List 2 (Step 3).</p>
+   ${policy([],'Exclusions',T_EXCL)}
+   ${noteBox(2)}`);
+ }
+ if(o.stop>=3){
+  h+=step(3,'Step 3','Was any mandatory exception true in the lookback period? (List 2)',`
+   ${lookBox()}
+   <p class="hint">Check all that were true during the lookback period. If any were true, the person is deemed compliant.</p>
+   <div class="choices">${EXC.map(([k,t,n])=>k==='pastexcl'?`<div class="subhead"><b>${t}${lookback()?' ('+esc(lookback())+')':''}</b>, even if it&rsquo;s no longer true. Check any that apply:</div><div class="sub">${EXCL.map(([k2,t2])=>`<label class="choice"><input type="checkbox" data-pw="${k2}" ${S.pastWhich.includes(k2)?'checked':''}><span>${t2}</span></label>${S.pastWhich.includes(k2)?srcRow('pw-'+k2):''}`).join('')}</div>`:`<label class="choice"><input type="checkbox" data-exc="${k}" ${S.exc.includes(k)?'checked':''}><span>${t}${n?`<span class="nd cnote">${n}</span>`:''}</span></label>${S.exc.includes(k)?srcRow('exc-'+k):''}`).join('')}
+   <label class="choice none"><input type="checkbox" id="excNone" data-none="exc" ${S.excNone?'checked':''}><span>None of these were true</span></label></div>${S.exc.length?srcNote:''}${inl(3)}
+   ${policy(['Exceptions are checked for the lookback period, not the application or review month. Example: a person who was 18 in the lookback month counts, even if they are 19 now.','Short-term hardship (hospital stay, travel for medical care, disaster area, high unemployment). <span class="nd">[ND to confirm if offered.]</span>'],'Mandatory exceptions',T_EXC)}
+   ${noteBox(3)}`);
+ }
+ if(o.stop>=4){
+  const t=hoursTotal();
+  h+=step(4,'Step 4','Did the person meet ONE of these requirements in the lookback period?',`
+   ${lookBox()}
+   <div class="wr">
+    <div class="opt"><div class="opthead"><label for="incOk"><input type="checkbox" id="incOk" data-k="incOk" ${incMet()?'checked':''} ${incEntered()?'disabled':''}><span>$580 or more monthly ACA household income</span></label>${badge(incMet(),S.seasonal?(seasAvg()===null?'':'average $'+seasAvg().toLocaleString()):(S.inc!==''?'$'+num(S.inc).toLocaleString()+' entered':''),'$580')}</div>
+      <p class="hint">Check the box if you already know, or enter the amount and it checks for you.</p>
+      <div class="row seg" role="group" aria-label="Type of income"><button type="button" class="btn" data-seas="0" aria-pressed="${!S.seasonal}">Monthly income</button><button type="button" class="btn" data-seas="1" aria-pressed="${S.seasonal}">Seasonal worker <span class="btn-sub">6-month average</span></button></div>
+      ${S.seasonal?'':`<div class="row"><label class="f" for="inc" style="max-width:220px">Monthly amount ($)<input type="number" id="inc" min="0" step="1" data-k="inc" value="${esc(S.inc)}"></label></div>`}
+      ${S.seasonal?`<div class="hours">${S.sm.map((v,i)=>`<label for="sm${i}">Month ${i+1} ($)<input type="number" min="0" step="1" id="sm${i}" data-sm="${i}" value="${esc(v)}"></label>`).join('')}</div><p class="hint">Average: <span class="total">${seasAvg()===null?'enter all 6 months':'$'+seasAvg().toLocaleString()}</span> (needs $580 or more)</p>`:''}${incMet()?srcRow('wr-inc'):''}</div>
+    <div class="or">OR</div>
+    <div class="opt"><div class="opthead"><label for="school"><input type="checkbox" id="school" data-k="school" ${S.school?'checked':''}><span>Enrolled in school at least half-time</span></label>${badge(S.school,'','')}</div>${S.school?srcRow('wr-school'):''}</div>
+    <div class="or">OR</div>
+    <div class="opt"><div class="opthead"><label for="hrsOk"><input type="checkbox" id="hrsOk" data-k="hrsOk" ${hrsMet()?'checked':''} ${hrsEntered()?'disabled':''}><span>80 hours combined</span></label>${badge(hrsMet(),hoursTotal()?hoursTotal()+' hours':'','80 hours')}</div>
+      <p class="hint">Check the box if you already know, or enter hours and it adds them up. If the person has no income, check whether their activities add up to 80 hours.</p>
+      <div class="hours">${[['work','Work'],['prog','Work program'],['edu','Education or training'],['comm','Community service']].map(([k,l])=>`<label for="h_${k}">${l}<input type="number" min="0" step="1" id="h_${k}" data-h="${k}" value="${esc(S.h[k])}"></label>`).join('')}</div>
+      <p class="hint">Total: <span class="total">${t}</span> of 80 hours</p>${hrsMet()?srcRow('wr-hrs'):''}</div>
+   </div>
+   ${wrMet().length?'':`<label class="choice none" style="border:1px solid var(--line);border-radius:8px"><input type="checkbox" id="wrNone" data-k="wrNone" ${S.wrNone?'checked':''}><span>No proof of meeting any of these</span></label>${S.wrNone?srcRow('wrNone'):''}`}${wrMet().length||S.wrNone?srcNote:''}${inl(4)}
+   ${policy(['80 hours: any mix of work, community service, work program, and education.'],'Work requirements',T_INC+T_WR)}
+   ${noteBox(4)}`);
+ }
+ if(o.stop>=5){
+  h+=step(5,'Step 5','Send a noncompliance notice. Did the person show proof within 30 days?',`
+   <label class="f" for="noticeDate_m">Date notice sent${mp("noticeDate")}</label>
+   <p class="hint">${S.type==='review'?'At review, the person keeps coverage during the 30 days.':'At application, the person is not enrolled while they respond.'}</p>
+   <div class="row"><button type="button" class="btn" data-s5="proof" aria-pressed="${S.s5==='proof'}">Showed proof</button><button type="button" class="btn" data-s5="none" aria-pressed="${S.s5==='none'}">No response, or proof not enough</button></div>${inl(5)}
+   ${policy(['The person has 30 days to show they met a requirement or have an exception.','If they don’t: deny the application, or end coverage at the end of the month after the 30 days. Include appeal rights.','<span class="nd">[ND to confirm: notice name, and whether a request for information comes first.]</span>'],'Noncompliance and verification')}
+   ${noteBox(5)}`);
+ }
+ if(o.res){const[c,t,d]=RES[o.res];h+=`<section class="result ${c}" aria-live="polite"><h2>${t}</h2><p>${d}</p></section>`;}
+ const focusId=document.activeElement&&document.activeElement.id;
+ document.getElementById('steps').innerHTML=h;
+ if(focusId){const el=document.getElementById(focusId);if(el){el.focus();if(el.setSelectionRange&&el.type!=='number'&&el.type!=='month'){const v=el.value.length;try{el.setSelectionRange(v,v)}catch(e){}}}}
+ writeNotes(o);
+}
+
+function writeNotes(o){
+ const lb=lookback(); const P=[]; const SRCTXT={'Data match (ex parte)':'verified by data match','What the person reported':'as reported by the person','Proof the person sent':'verified by proof','Not verified yet (need proof)':'not verified yet'};const src=v=>v?` (${SRCTXT[v]||v})`:'';
+ const w=n=>S.notes[n]?' Worker note: '+S.notes[n].trim():'';
+ const chip=document.getElementById('lbChip');
+ chip.innerHTML=lb?`<span class="chip">Lookback period: ${esc(lb)}</span>`:'';
+ if(!S.type){document.getElementById('notesOut').textContent='Choose application or review to start.';return;}
+ const wn=win();P.push(`Work requirements review (${S.type==='application'?'application':(S.rvKind==='desk'?'desk review':'review')}).`+(lb?` Lookback period: ${lb}${S.type==='application'?', the month before the person applied.':(wn.length?`, one month in ${rvManual()?'the lookback period':'the '+rvLen()+' months since the person was last certified'} (${fmtMonth(wn[0])} through ${fmtMonth(wn[wn.length-1])}).`:'.')}`:''));
+ const tr=S.tried.filter(t=>t.m!==S.renewMonth);if(S.type==='review'&&tr.length)P.push('Months already checked: '+tr.map(t=>fmtMonth(t.m)+' ('+t.r+')').join('; ')+'.');
+ if(S.s1==='no'){P.push('Person is not in Medicaid Expansion (ages 19 to 64), so they are not subject to work requirements.'+w(1));}
+ else if(S.s1==='yes'){P.push('Person is in Medicaid Expansion (ages 19 to 64), so work requirements may apply.'+w(1));}
+ if(o.stop>=2){
+  if(S.excl.length){const names=S.excl.map(k=>EXCL.find(e=>e[0]===k)[1].split(' (')[0].replace(/^./,c=>c.toLowerCase())+src(S.src['excl-'+k]));
+   P.push(`Exclusion true for the ${exMonth()}: ${names.join('; ')}. Person is not subject to work requirements.`+w(2));}
+  else if(S.exclNone){P.push(`No exclusions are true for the ${exMonth()}, so the person is subject to work requirements.`+w(2));}
+ }
+ if(o.stop>=3){
+  if(S.exc.length){const names=S.exc.map(k=>k==='pastexcl'?(S.pastWhich.length?'List 1 exclusion during the lookback period ('+S.pastWhich.map(x=>EXCL.find(e=>e[0]===x)[1].split(' (')[0].replace(/^./,c=>c.toLowerCase())+src(S.src['pw-'+x])).join(', ')+')':'List 1 exclusion during the lookback period'):EXC.find(e=>e[0]===k)[1].split(',')[0].split(' (for example')[0].replace(/^./,c=>c.toLowerCase())+src(S.src['exc-'+k]));
+   P.push(`Mandatory exception in the lookback period${lb?' ('+lb+')':''}: ${names.join('; ')}. Person is deemed compliant; no proof of activities needed.`+w(3));}
+  else if(S.excNone){P.push(`No mandatory exceptions in the lookback period.`+w(3));}
+ }
+ if(o.stop>=4){const met=wrMet();
+  const parts=[];const hb=[['work','work'],['prog','work program'],['edu','education or training'],['comm','community service']].filter(([k])=>num(S.h[k])>0).map(([k,l])=>`${l} ${num(S.h[k])}`);
+  if(met.length){
+   const what=met.map(m=>(m.startsWith('80 hours')?`80 hours combined (${hoursTotal()} hours: ${hb.join(', ')})`:m.replace('Monthly ACA household income $','monthly ACA household income of $').replace('Seasonal worker: average monthly household income $','seasonal worker with average monthly household income of $').replace('Enrolled in school at least half-time','enrolled in school at least half-time'))+src(S.src[m.startsWith('80 hours')?'wr-hrs':(m.startsWith('Enrolled')?'wr-school':'wr-inc')]));
+   if(o.res==='pending')P.push(`Person reported meeting work requirements in ${lb||'the lookback period'}: ${what.join('; ')}. Not verified yet; requesting proof.`+w(4));
+   else P.push(`Person meets work requirements in ${lb||'the lookback period'}: ${what.join('; ')}.`+w(4));}
+  else if(S.wrNone){P.push(`No proof that the person met a work requirement in ${lb||'the lookback period'}`+(hoursTotal()?` (${hoursTotal()} hours reported, under 80)`:'')+src(S.src.wrNone)+'.'+w(4));}
+ }
+ if(o.stop>=5&&(S.s5||S.noticeDate)){
+  let t='Noncompliance notice sent'+(S.noticeDate?' ('+fmtMonth(S.noticeDate)+')':'')+'; person has 30 days to show proof.';
+  if(S.s5==='proof')t+=' Proof received within 30 days; person meets work requirements.';
+  if(S.s5==='none')t+=' No response, or proof not enough. '+(S.type==='application'?'Application denied':'Coverage ends')+', with appeal rights.';
+  P.push(t+w(5));
+ }
+ if(o.res)P.push('Result: '+RES[o.res][1].replace(/<[^>]+>/g,'')+'.');
+ document.getElementById('notesOut').textContent=P.join('\n\n');
+}
+
+function touch(){if(isExample){isExample=false;}}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.type){touch();S.type=b.dataset.type;render();}
+ else if(b.dataset.rv){touch();S.rvKind=b.dataset.rv;S.renewMonth='';render();}
+ else if(b.dataset.manual){touch();S.manual=b.dataset.manual==='1';S.renewMonth='';render();}
+ else if(b.dataset.seas){touch();S.seasonal=b.dataset.seas==='1';render();}
+ else if(b.dataset.s1){touch();S.s1=b.dataset.s1;render();}
+ else if(b.dataset.s5){touch();S.s5=b.dataset.s5;render();}
+ else if(b.id==='newCase'||b.id==='resetBtn'||b.id==='topReset'){S=blank();isExample=false;render();document.getElementById('copyStatus').textContent='';window.scrollTo({top:0});}
+ else if(b.id==='copyBtn'){const txt=document.getElementById('notesOut').textContent;const st=document.getElementById('copyStatus');
+  try{navigator.clipboard.writeText(txt).then(()=>{st.textContent='Copied. Paste into the system narrative.';},()=>fallback());}catch(err){fallback();}
+  function fallback(){const r=document.createRange();r.selectNodeContents(document.getElementById('notesOut'));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);st.textContent='Narrative selected. Press Ctrl+C (or Cmd+C) to copy.';}}
+});
+document.addEventListener('change',e=>{const t=e.target;
+ if(t.dataset.excl){touch();const k=t.dataset.excl;S.excl=t.checked?[...S.excl,k]:S.excl.filter(x=>x!==k);if(t.checked)S.exclNone=false;render();}
+ else if(t.dataset.src){touch();S.src[t.dataset.src]=t.value;render();}
+ else if(t.dataset.pw){touch();const k=t.dataset.pw;S.pastWhich=t.checked?[...S.pastWhich,k]:S.pastWhich.filter(x=>x!==k);S.exc=S.exc.filter(x=>x!=='pastexcl');if(S.pastWhich.length){S.exc.push('pastexcl');S.excNone=false;}render();}
+ else if(t.dataset.exc){touch();const k=t.dataset.exc;S.exc=t.checked?[...S.exc,k]:S.exc.filter(x=>x!==k);if(t.checked)S.excNone=false;render();}
+ else if(t.dataset.none==='excl'){touch();S.exclNone=t.checked;if(t.checked)S.excl=[];render();}
+ else if(t.dataset.none==='exc'){touch();S.excNone=t.checked;if(t.checked){S.exc=[];S.pastWhich=[];}render();}
+ else if(t.dataset.mp){touch();const k=t.dataset.mp;S['_'+k+'_'+t.dataset.part]=t.value;const y=S['_'+k+'_y']??(S[k]||'-').split('-')[0],m=S['_'+k+'_m']??(S[k]||'-').split('-')[1];S[k]=(y&&m)?y+'-'+m:'';if(['certStart','certEnd','lastCert'].includes(k)&&S.renewMonth&&!win().includes(S.renewMonth))S.renewMonth='';render();}
+ else if(t.dataset.k==='renewMonth'){touch();switchMonth(t.value);setTimeout(render,0);}
+ else if(t.dataset.k){touch();S[t.dataset.k]=t.type==='checkbox'?t.checked:t.value;setTimeout(render,0);}
+ else if(t.dataset.h){touch();S.h[t.dataset.h]=t.value;setTimeout(render,0);}
+ else if(t.dataset.sm){touch();S.sm[+t.dataset.sm]=t.value;setTimeout(render,0);}
+});
+document.addEventListener('input',e=>{const t=e.target;
+ if(t.dataset.note){touch();S.notes[t.dataset.note]=t.value;writeNotes(outcome());}
+});
+render();
+</script>
+</body></html>

@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>ND Medicaid Work Requirements Caseworker Reference Guide 11-17-26 930am</title>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>ND Medicaid Work Requirements Caseworker Reference Guide 11-23-26 401pm</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -122,7 +122,8 @@ details.policy ul{margin:8px 0 4px;padding-left:20px}
 .r-bad{background:var(--bad);border-color:var(--bad-edge);color:var(--bad-ink)}
 .notes{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--beige);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
 .notes h2{margin:0;font-size:1rem}
-.notes pre{margin:0;font-family:var(--font-mono);font-size:.8rem;line-height:1.55;white-space:pre-wrap;word-break:break-word;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px;max-height:max(200px,calc(100vh - 340px));overflow:auto}
+.notes textarea{display:block;width:100%;resize:vertical;color:var(--ink);height:max(240px,calc(100vh - 400px));margin:0;font-family:var(--font-mono);font-size:.8rem;line-height:1.55;white-space:pre-wrap;word-break:break-word;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px;overflow:auto}
+.editnote{font-size:.82rem;background:var(--beige);border:1px solid var(--line);border-radius:6px;padding:6px 10px}
 .status{font-size:.82rem;color:var(--ok-ink);min-height:1.2em}
 .policybar{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:.88rem;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
 .policybar a{text-decoration:none}
@@ -133,6 +134,14 @@ details.policy[open]{padding-bottom:10px}
 .btn-sub{display:block;font-size:.75rem;font-weight:400;opacity:.85}
 .tried{background:var(--beige);border:1px solid var(--line);border-radius:6px;padding:8px 12px;font-size:.88rem}
 .tried ul{margin:4px 0 0;padding-left:18px}
+.grid.allview{grid-template-columns:minmax(0,1fr)}
+.grid.allview .notes{display:none}
+.viewbar{margin:4px 0 0}
+.ovlist{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.ovgo{margin:0}
+.seg{align-items:center;flex-wrap:nowrap}
+.seg .btn{flex:1 1 0;max-width:200px;text-align:center}
+.seg .or{font-size:.9rem;color:var(--muted);font-style:italic}
 .sechead{margin:6px 0 -4px;font-weight:700;font-size:1rem;color:var(--navy)}
 .flabel{font-weight:600;font-size:.9rem}
 .linkbtn{background:none;border:0;padding:0;color:var(--look-edge);text-decoration:underline;cursor:pointer;font:inherit;font-size:.88rem;align-self:flex-start}
@@ -171,7 +180,7 @@ details.policy .plabel{margin:6px 0 0;font-size:.78rem;text-transform:uppercase;
       <p class="sub">Caseworker guide. Answer each step, and the case narrative writes itself as you go.</p>
       <button class="btn reset" id="topReset" type="button">&#8634; Start over (new case)</button>
     </div>
-    <span class="draft">Draft for review &middot; Updated 11-17-26 9:30am</span>
+    <span class="draft">Draft for review &middot; Updated 11-23-26 4:01pm</span>
   </header>
 
   <section class="howto" aria-labelledby="howtoH">
@@ -186,13 +195,15 @@ details.policy .plabel{margin:6px 0 0;font-size:.78rem;text-transform:uppercase;
    <p class="howto-warn"><strong>Nothing you enter is saved or sent.</strong> Close the page and it's gone. Don&rsquo;t enter names or case numbers.</p>
   </section>
 
+  <div class="row viewbar" role="group" aria-label="View"><button type="button" class="btn" data-view="case" aria-pressed="true">Work through a case</button><button type="button" class="btn" data-view="all" aria-pressed="false">See all steps</button></div>
   <div class="grid">
     <main class="steps" id="steps"></main>
     <aside class="notes" aria-live="polite">
       <h2>Narrative</h2>
-      <p class="hint">Updates as you answer. Copy and paste into the system narrative. Add your own notes in each step.</p>
+      <p class="hint">Updates as you answer. You can edit it before you copy it into the system narrative.</p>
       <div id="lbChip"></div>
-      <pre id="notesOut"></pre>
+      <textarea id="notesOut" aria-label="Narrative (you can edit this)" spellcheck="true"></textarea>
+      <div class="editnote" id="editNote" hidden>You edited the narrative. New steps will still be added at the end, but changes to earlier answers won&rsquo;t update what&rsquo;s already there. <button type="button" class="linkbtn" id="regenBtn">Rebuild from my answers</button> (replaces your edits)</div>
       <div class="row"><button class="btn primary" id="copyBtn" type="button">Copy narrative</button><button class="btn" id="resetBtn" type="button">Start over</button></div>
       <div class="status" id="copyStatus"></div>
     </aside>
@@ -208,7 +219,7 @@ const EXCL=[
  ['sud','Participating in a drug or alcohol treatment program'],
  ['tanf','Complying with TANF work requirements'],
  ['snap','In a SNAP household and subject to SNAP work requirements'],
- ['preg','Pregnant or postpartum coverage'],
+ ['preg','Pregnant or Medicaid postpartum coverage'],
  ['foster','In foster care at age 18 and now younger than 26'],
  ['inmate','An inmate at a jail or prison']];
 const EXC=[
@@ -217,7 +228,7 @@ const EXC=[
  ['othermed','Eligible under another Medicaid coverage'],
  ['jail','Was in jail or prison at any time in the 4 months before the application or review month (for example: applied in June &rarr; check February through May)'],
  ['pastexcl','Any List 1 exclusion that was true for all or part of the lookback period']];
-const SOURCES=['','Data match (ex parte)','What the person reported','Proof the person sent','Not verified yet (need proof)'];
+const SOURCES=['','Client Statement','Collateral Contact','Hard Copy','Interface','Pending'];
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 function blank(){return{tried:[],src:{},type:'',rvKind:'',lastCert:'',manual:false,pastWhich:[],appMonth:'',renewMonth:'',certStart:'',certEnd:'',s1:'',excl:[],exclNone:false,exclSrc:'',exc:[],excNone:false,excSrc:'',
@@ -262,7 +273,7 @@ function outcome(){
  if(!S.exc.length&&!S.excNone)return{stop:3};
  if(S.exc.length)return{stop:3,res:'deemed'};
  const met=wrMet();
- if(met.length)return{stop:4,res:metKeys().every(k=>S.src[k]==='Not verified yet (need proof)')?'pending':'meets'};
+ if(met.length)return{stop:4,res:metKeys().every(k=>S.src[k]==='Pending')?'pending':'meets'};
  if(!S.wrNone)return{stop:4};
  if(!S.s5)return{stop:5};
  return{stop:5,res:S.s5==='proof'?'meets5':'noteligible'};
@@ -280,18 +291,21 @@ function switchMonth(v){
   Object.keys(S.src).forEach(k=>{if(/^(exc-|pw-|wr-|wrNone)/.test(k))delete S.src[k];});
   ['n3','n4','n5',3,4,5].forEach(k=>{if(S.notes)delete S.notes[k];});}
  S.renewMonth=v;}
+const fmtDay=v=>{const[y,m,d]=v.split('-').map(Number);return MONTHS[m-1]+' '+d+', '+y;};
+const addDays=(v,n)=>{const[y,m,d]=v.split('-').map(Number);const t=new Date(Date.UTC(y,m-1,d+n));return t.toISOString().slice(0,10);};
 const RES={
  notsub1:['r-notsub','Person is NOT subject to Medicaid work requirements','Not in Medicaid Expansion (ages 19 to 64). No further steps.'],
  notsub2:['r-notsub','Person is NOT subject to Medicaid work requirements','An exclusion is true for the application or review month. No further steps.'],
- deemed:['r-ok','Person is deemed compliant with work requirements','A mandatory exception was true in the lookback period. No proof of activities needed.'],
- pending:['r-warn','Needs verification','The person reported meeting a requirement, but it isn\u2019t verified yet. Request proof. <span class="nd">[ND to confirm: request for information, or noncompliance notice?]</span>'],
+ deemed:['r-ok','Person is deemed compliant with work requirements','A mandatory exception was true in the lookback period. No verification of activities needed.'],
+ pending:['r-warn','Needs verification','The person reported meeting a requirement, but it isn\u2019t verified yet. Send an RFV (request for verification) notice.'],
  meets:['r-ok','Person meets the work requirements','At least one requirement was met in the lookback period.'],
- meets5:['r-ok','Person meets the work requirements','Proof received within 30 days.'],
+ meets5:['r-ok','Person meets the work requirements','Verification received within 30 days.'],
  noteligible:['r-bad','Person does not meet the work requirements','Deny or end coverage, with appeal rights.']};
 
-const YEARS=['2026','2027','2028'];
+const THISYEAR=new Date().getFullYear();
+const YEARS=[];for(let y=Math.max(2026,THISYEAR-1);y<=THISYEAR+4;y++)YEARS.push(String(y));
 const mp=k=>{const[v_y,v_m]=(S[k]||'-').split('-');const y=S['_'+k+'_y']??v_y,m=S['_'+k+'_m']??v_m;
- return `<span class="mp"><select id="${k}_m" data-mp="${k}" data-part="m" aria-label="Month"><option value="">Month</option>${MONTHS.map((n,i)=>{const v=String(i+1).padStart(2,'0');return`<option value="${v}" ${v===m?'selected':''}>${n}</option>`}).join('')}</select><select id="${k}_y" data-mp="${k}" data-part="y" aria-label="Year"><option value="">Year</option>${YEARS.map(Y=>`<option ${Y===y?'selected':''}>${Y}</option>`).join('')}</select></span>`;};
+ return `<span class="mp"><select id="${k}_m" data-mp="${k}" data-part="m" aria-label="Month"><option value="">Month</option>${MONTHS.map((n,i)=>{const v=String(i+1).padStart(2,'0');return`<option value="${v}" ${v===m?'selected':''}>${n}</option>`}).join('')}</select><select id="${k}_y" data-mp="${k}" data-part="y" aria-label="Year"><option value="">Year</option>${YEARS.filter(Y=>k!=='appMonth'||Y>='2027').map(Y=>`<option ${Y===y?'selected':''}>${Y}</option>`).join('')}</select></span>`;};
 const badge=(met,detail,goal)=>met?`<span class="badge yes">&#10003; Meets${detail?' &middot; '+detail:''}</span>`:(detail?`<span class="badge no">Not yet &middot; ${detail}${goal?' (needs '+goal+')':''}</span>`:'');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const policy=(items,topic,tbl,done)=>{const ready=tbl||done;return`<details class="policy"><summary>Policy details for this step: ${topic}${ready?'':' <span class="nd">(to be added)</span>'}</summary>${ready?'':'<p class="nd pnote">[Policy details and manual references (with links) to be added. Examples of what could go here:]</p>'}${items.length?`<ul>${items.map(i=>`<li>${i}</li>`).join('')}</ul>`:''}${tbl||''}</details>`;};
@@ -322,17 +336,30 @@ const T_WR=ptable(['Expansion work requirement','Definition','How to verify'],[
  ['D. Enrolled in education at least half time','Full time: 12+ credits<br>Half time: 6+ credits<br>School includes: high school, GED program, vocational/CTE, college/university','School transcript or enrollment letter stating number of credit hours.']]);
 const lookBox=()=>{const lb=lookback();return`<div><span class="chip">Lookback period: ${lb?esc(lb):'<span class="chipnone">choose it in Start</span>'}</span></div>`;};
 const srcRow=key=>`<div class="srcrow"><label for="src_${key}">How do you know?<select id="src_${key}" data-src="${key}">${SOURCES.map(o=>`<option ${o===(S.src[key]||'')?'selected':''} value="${esc(o)}">${o||'Choose one'}</option>`).join('')}</select></label></div>`;
-const srcNote=`<p class="nd srcnote">[ND to review/revise the &ldquo;How do you know?&rdquo; options.]</p>`;
-const SNAPTIP=`<div class="tip"><b>Different from SNAP:</b> These exclusions may not be the same as SNAP exemptions. Also review the person&rsquo;s SNAP work requirement exemption. <a href="https://www.nd.gov/dhs/policymanuals/SNAP/SNAP.htm#301%20Work%20Registration%20Overview.htm?TocPath=300%2520Work%2520Registration%257C_____1" target="_blank" rel="noopener">SNAP Policy Manual: 301 Work Registration</a></div>`;
+const srcNote='';
+const SNAPTIP=`<div class="tip"><b>Different from SNAP:</b> These exclusions may not be the same as SNAP exemptions. If the person has also applied for SNAP, <a href="https://www.nd.gov/dhs/policymanuals/SNAP/SNAP.htm#301%20Work%20Registration%20Overview.htm?TocPath=300%2520Work%2520Registration%257C_____1" target="_blank" rel="noopener">review the SNAP work requirement policy</a>.</div>`;
 const srcSel=(id,val)=>`<label class="f" for="${id}">How do you know?<select id="${id}" data-k="${id}">${SOURCES.map(o=>`<option ${o===val?'selected':''} value="${esc(o)}">${o||'Choose one'}</option>`).join('')}</select><span class="nd" style="font-size:.8rem">[ND to review/revise the options.]</span></label>`;
 const noteBox=(n)=>`<label class="f" for="note${n}">Your notes for this step (added to the narrative on the right)<textarea id="note${n}" data-note="${n}" placeholder="Optional">${esc(S.notes[n]||'')}</textarea></label>`;
 const step=(n,label,q,body)=>{const m=body.match(/<details class="policy">[\s\S]*?<\/details>/);const pol=m?m[0]:'';if(m)body=body.replace(pol,'');return`<section class="step" aria-labelledby="h${n}"><div class="step-h"><span class="n">${label}</span><h2 id="h${n}">${q}</h2></div>${pol?`<div class="step-p">${pol}</div>`:''}<div class="step-b">${body}</div></section>`;};
 
+const POL={start:()=>policy(['Application: the lookback period is the calendar month before they applied. Example: if they applied on July 4 or July 28, the lookback period is June 1&ndash;30.','Review: any one calendar month since the person was last certified. That&rsquo;s 6 months if they were certified on or after January 1, 2027, and 12 months if they were certified before. <span class="nd">[ND to confirm: is this right?]</span>','If the person meets an exclusion, exception, or requirement for even one day of a month, it counts for that month.'],'Lookback period','',true),s1:()=>policy(['ACA Adult Expansion covers adults 19 to 64 who are not pregnant and not entitled to or enrolled in Medicare.','ACA Adult 19&ndash;20 is part of Expansion. ND tracks it separately.'],'Medicaid Expansion','',true),s2:()=>policy([],'Exclusions',T_EXCL),s3:()=>policy(['Exceptions are checked for the lookback period, not the application or review month. Example: a person who was 18 in the lookback month counts, even if they are 19 now.'],'Mandatory exceptions',T_EXC),s4:()=>policy(['80 hours: any mix of work, community service, work program, and education.'],'Work requirements',T_INC+T_WR),s5:()=>policy(['The person has 30 days to show they met a requirement or have an exception.','If they don’t: deny the application, or end coverage at the end of the month after the 30 days.'],'Noncompliance and verification')};
+let VIEW='case';
+function overview(){let h='';const ul=a=>`<ul class="ovlist">${a.map(x=>`<li>${x}</li>`).join('')}</ul>`;const go=t=>`<p class="ovgo">${t}</p>`;
+ h+=step(0,'Start','Is this an application or a review?',ul(['<b>Application (new applicant):</b> the lookback period is the calendar month before they applied.','<b>Review (existing member):</b> any one calendar month since the person was last certified (6 months if certified on or after January 1, 2027; 12 months if before).','<b>Desk review (acting on a change):</b> the worker enters the lookback months.'])+POL.start());
+ h+=step(1,'Step 1','Is the person in Medicaid Expansion, ages 19 to 64, or likely to qualify?',go('<b>Yes</b> (in Expansion, includes ACA Adult 19&ndash;20): go to Step 2.')+go('<b>No</b> (not in Expansion, for example pregnant or on Medicare): not subject to work requirements. No further steps.')+POL.s1());
+ h+=step(2,'Step 2','Is any exclusion true for the application or review month? (List 1)',SNAPTIP+ul(EXCL.map(e=>e[1]))+go('<b>If any are true:</b> not subject to work requirements. <b>If none:</b> go to Step 3.')+POL.s2());
+ h+=step(3,'Step 3','Was any mandatory exception true in the lookback period? (List 2)',ul(EXC.map(e=>e[0]==='pastexcl'?e[1]+', even if it&rsquo;s no longer true':e[1]))+go('<b>If any were true:</b> deemed compliant. <b>If none:</b> go to Step 4.')+POL.s3());
+ h+=step(4,'Step 4','Did the person meet ONE of these requirements in the lookback period?',ul(['<b>Income Test:</b> $580 or more monthly ACA household countable income (seasonal workers: average of $580 a month over the last 6 months)','<b>Student Test:</b> enrolled in school at least half-time','<b>80-Hour Test:</b> 80 hours combined (work, work program, education or training, community service)'])+go('<b>If one is met:</b> meets work requirements. <b>If none, or no verification:</b> go to Step 5.')+POL.s4());
+ h+=step(5,'Step 5','Send an RFV notice. Was verification received within 30 days?',go('<b>Verification received:</b> meets work requirements.')+go('<b>No response, or insufficient verification:</b> deny the application or end coverage, with appeal rights.')+POL.s5());
+ return h;}
 function render(){
+ document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===VIEW)));
+ document.querySelector('.grid').classList.toggle('allview',VIEW==='all');
+ if(VIEW==='all'){document.getElementById('steps').innerHTML=overview();document.querySelectorAll('#steps details.policy').forEach(d=>d.open=false);return;}
  const o=outcome(); let h='';
- const inl=n=>{if(n===4&&S.wrNone&&!wrMet().length)return`<div class="result inline r-warn" role="status"><p><b>&rarr; Next: Step 5.</b> Send a noncompliance notice. The person has 30 days to show proof.</p></div>`;
+ const inl=n=>{if(n===4&&S.wrNone&&!wrMet().length)return`<div class="result inline r-warn" role="status"><p><b>&rarr; Next: Step 5.</b> Send an RFV (request for verification) notice. The person has 30 days to provide verification.</p></div>`;
   if(o.stop!==n)return'';
-  if(o.res){const[c,t,d]=RES[o.res];return`<div class="result inline ${c}" role="status"><p><b>&rarr; ${t}.</b> ${d}</p><p class="small">${o.res==='pending'||o.res==='noteligible'?'':'No more steps. '}Complete the &ldquo;How do you know?&rdquo; and &ldquo;Your notes&rdquo; sections for this step, then copy the narrative.</p></div>`;}
+  if(o.res){const[c,t,d]=RES[o.res];return`<div class="result inline ${c}" role="status"><p><b>&rarr; ${t}.</b> ${d}</p><p class="small">${o.res==='pending'||o.res==='noteligible'||d.includes('No further steps')?'':'No more steps. '}Complete the &ldquo;How do you know?&rdquo; and &ldquo;Your notes&rdquo; sections for this step, then copy the narrative.</p></div>`;}
   return'';};
  const W=win();
  h+=step(0,'Start','Is this an application or a review?',`
@@ -347,16 +374,16 @@ function render(){
     ${S.rvKind==='regular'?`<button type="button" class="linkbtn" data-manual="0">Calculate the lookback months instead</button>`:''}
     ${!W.length&&S.certStart&&S.certEnd?`<p class="hint nd">The last month should be the same as or after the first month.</p>`:''}`:''}
    ${W.length?`<div class="look"><b class="k">Months you can check</b><span class="m">${esc(fmtMonth(W[0]))} through ${esc(fmtMonth(W[W.length-1]))}</span> (${W.length} months${rvManual()?'':', because they were certified '+(rvLen()===6?'on or after':'before')+' January 1, 2027'}). Only one month needs to meet a requirement or exception.${rvManual()?' <span class="nd">[ND to confirm which months count.]</span>':`<p class="nd" style="margin:6px 0 0;font-weight:600">[ND to confirm: we&rsquo;re assuming the lookback months are the months since the person was last certified: 6 months if certified on or after January 1, 2027, and 12 months if certified before.]</p>`}</div>
-   <p class="hint">Do data checks (ex parte) before asking for proof.</p>
+   <p class="hint">Do data checks before requesting verification.</p>
    <label class="f" for="renewMonth">${S.tried.length?'Which month are you checking now?':'Which month are you checking first?'} <span class="lbl-hint">If the person doesn&rsquo;t meet a requirement or exception in this month, choose another month. Steps 3 and 4 will clear, and this month will show under &ldquo;Already checked.&rdquo;</span><select id="renewMonth" data-k="renewMonth"><option value="">Choose a month</option>${W.map(v=>{const t=S.tried.find(x=>x.m===v);return`<option value="${v}" ${v===S.renewMonth?'selected':''}>${fmtMonth(v)}${t&&v!==S.renewMonth?' (already checked)':''}</option>`;}).join('')}</select></label>
    ${['notsub1','notsub2'].includes(outcome().res)?`<p class="hint"><b>This person isn&rsquo;t subject to work requirements, so you don&rsquo;t need to check any lookback months.</b></p>`:''}
    ${S.tried.filter(t=>t.m!==S.renewMonth).length?`<div class="tried"><b>Already checked:</b><ul>${S.tried.filter(t=>t.m!==S.renewMonth).map(t=>`<li>${esc(fmtMonth(t.m))}: ${esc(t.r)}</li>`).join('')}</ul></div>`:''}`:''}`:''}
-  ${policy(['Application: the lookback period is the calendar month before they applied. Example: if they applied on July 4 or July 28, the lookback period is June 1&ndash;30.','Review: any one calendar month since the person was last certified. That&rsquo;s 6 months if they were certified on or after January 1, 2027, and 12 months if they were certified before. <span class="nd">[ND to confirm: is this right?]</span>','If the person meets an exclusion, exception, or requirement for even one day of a month, it counts for that month.'],'Lookback period','',true)}`);
+  ${POL.start()}`);
  if(o.stop>=1){
   h+=step(1,'Step 1','Is the person in Medicaid Expansion, ages 19 to 64, or likely to qualify?',`
    <p class="hint">Medicaid Expansion includes ACA Adult Expansion and ACA Adult 19&ndash;20.</p>
    <div class="row"><button type="button" class="btn" data-s1="yes" aria-pressed="${S.s1==='yes'}">Yes <span class="btn-sub">In Expansion, 19 to 64<br>(includes ACA Adult 19&ndash;20)</span></button><button type="button" class="btn" data-s1="no" aria-pressed="${S.s1==='no'}">No <span class="btn-sub">Not in Expansion<br>(for example, pregnant or on Medicare)</span></button></div>${inl(1)}
-   ${policy(['ACA Adult Expansion covers adults 19 to 64 who are not pregnant and not entitled to or enrolled in Medicare.','ACA Adult 19&ndash;20 is part of Expansion. ND tracks it separately.','<span class="nd">[ND, please review/revise the content here.]</span>'],'Medicaid Expansion','',true)}
+   ${POL.s1()}
    ${noteBox(1)}`);
  }
  if(o.stop>=2){
@@ -365,8 +392,8 @@ function render(){
    ${SNAPTIP}
    <div class="choices">${EXCL.map(([k,t,n])=>`<label class="choice"><input type="checkbox" data-excl="${k}" ${S.excl.includes(k)?'checked':''}><span>${t}${n?`<span class="nd cnote">${n}</span>`:''}</span></label>${S.excl.includes(k)?srcRow('excl-'+k):''}`).join('')}
    <label class="choice none"><input type="checkbox" id="exclNone" data-none="excl" ${S.exclNone?'checked':''}><span>None of these are true for the ${exMonth()}</span></label></div>${S.excl.length?srcNote:''}${inl(2)}
-   <p class="hint">True during the lookback period but not for the ${exMonth()} (for example, postpartum coverage ended)? Check "None" here and mark it in List 2 (Step 3).</p>
-   ${policy([],'Exclusions',T_EXCL)}
+   <p class="hint">If any of these are true during the lookback period but not the ${exMonth()} (for example, postpartum coverage ended), check "None" here and mark it in Step 3 (List 2).</p>
+   ${POL.s2()}
    ${noteBox(2)}`);
  }
  if(o.stop>=3){
@@ -375,7 +402,7 @@ function render(){
    <p class="hint">Check all that were true during the lookback period. If any were true, the person is deemed compliant.</p>
    <div class="choices">${EXC.map(([k,t,n])=>k==='pastexcl'?`<div class="subhead"><b>${t}${lookback()?' ('+esc(lookback())+')':''}</b>, even if it&rsquo;s no longer true. Check any that apply:</div><div class="sub">${EXCL.map(([k2,t2])=>`<label class="choice"><input type="checkbox" data-pw="${k2}" ${S.pastWhich.includes(k2)?'checked':''}><span>${t2}</span></label>${S.pastWhich.includes(k2)?srcRow('pw-'+k2):''}`).join('')}</div>`:`<label class="choice"><input type="checkbox" data-exc="${k}" ${S.exc.includes(k)?'checked':''}><span>${t}${n?`<span class="nd cnote">${n}</span>`:''}</span></label>${S.exc.includes(k)?srcRow('exc-'+k):''}`).join('')}
    <label class="choice none"><input type="checkbox" id="excNone" data-none="exc" ${S.excNone?'checked':''}><span>None of these were true</span></label></div>${S.exc.length?srcNote:''}${inl(3)}
-   ${policy(['Exceptions are checked for the lookback period, not the application or review month. Example: a person who was 18 in the lookback month counts, even if they are 19 now.','Short-term hardship (hospital stay, travel for medical care, disaster area, high unemployment). <span class="nd">[ND to confirm if offered.]</span>'],'Mandatory exceptions',T_EXC)}
+   ${POL.s3()}
    ${noteBox(3)}`);
  }
  if(o.stop>=4){
@@ -383,29 +410,30 @@ function render(){
   h+=step(4,'Step 4','Did the person meet ONE of these requirements in the lookback period?',`
    ${lookBox()}
    <div class="wr">
-    <div class="opt"><div class="opthead"><label for="incOk"><input type="checkbox" id="incOk" data-k="incOk" ${incMet()?'checked':''} ${incEntered()?'disabled':''}><span>$580 or more monthly ACA household income</span></label>${badge(incMet(),S.seasonal?(seasAvg()===null?'':'average $'+seasAvg().toLocaleString()):(S.inc!==''?'$'+num(S.inc).toLocaleString()+' entered':''),'$580')}</div>
+    <div class="opt"><div class="opthead"><label for="incOk"><input type="checkbox" id="incOk" data-k="incOk" ${incMet()?'checked':''} ${incEntered()?'disabled':''}><span><b>Income Test:</b> $580 or more monthly ACA household countable income</span></label>${badge(incMet(),S.seasonal?(seasAvg()===null?'':'average $'+seasAvg().toLocaleString()):(S.inc!==''?'$'+num(S.inc).toLocaleString()+' entered':''),'$580')}</div>
       <p class="hint">Check the box if you already know, or enter the amount and it checks for you.</p>
-      <div class="row seg" role="group" aria-label="Type of income"><button type="button" class="btn" data-seas="0" aria-pressed="${!S.seasonal}">Monthly income</button><button type="button" class="btn" data-seas="1" aria-pressed="${S.seasonal}">Seasonal worker <span class="btn-sub">6-month average</span></button></div>
+      <div class="row seg" role="group" aria-label="Type of income"><button type="button" class="btn" data-seas="0" aria-pressed="${!S.seasonal}">Monthly income <span class="btn-sub">One month</span></button><span class="or" aria-hidden="true">or</span><button type="button" class="btn" data-seas="1" aria-pressed="${S.seasonal}">Seasonal worker <span class="btn-sub">6-month average</span></button></div>
       ${S.seasonal?'':`<div class="row"><label class="f" for="inc" style="max-width:220px">Monthly amount ($)<input type="number" id="inc" min="0" step="1" data-k="inc" value="${esc(S.inc)}"></label></div>`}
       ${S.seasonal?`<div class="hours">${S.sm.map((v,i)=>`<label for="sm${i}">Month ${i+1} ($)<input type="number" min="0" step="1" id="sm${i}" data-sm="${i}" value="${esc(v)}"></label>`).join('')}</div><p class="hint">Average: <span class="total">${seasAvg()===null?'enter all 6 months':'$'+seasAvg().toLocaleString()}</span> (needs $580 or more)</p>`:''}${incMet()?srcRow('wr-inc'):''}</div>
     <div class="or">OR</div>
-    <div class="opt"><div class="opthead"><label for="school"><input type="checkbox" id="school" data-k="school" ${S.school?'checked':''}><span>Enrolled in school at least half-time</span></label>${badge(S.school,'','')}</div>${S.school?srcRow('wr-school'):''}</div>
+    <div class="opt"><div class="opthead"><label for="school"><input type="checkbox" id="school" data-k="school" ${S.school?'checked':''}><span><b>Student Test:</b> enrolled in school at least half-time</span></label>${badge(S.school,'','')}</div>${S.school?srcRow('wr-school'):''}</div>
     <div class="or">OR</div>
-    <div class="opt"><div class="opthead"><label for="hrsOk"><input type="checkbox" id="hrsOk" data-k="hrsOk" ${hrsMet()?'checked':''} ${hrsEntered()?'disabled':''}><span>80 hours combined</span></label>${badge(hrsMet(),hoursTotal()?hoursTotal()+' hours':'','80 hours')}</div>
+    <div class="opt"><div class="opthead"><label for="hrsOk"><input type="checkbox" id="hrsOk" data-k="hrsOk" ${hrsMet()?'checked':''} ${hrsEntered()?'disabled':''}><span><b>80-Hour Test:</b> 80 hours combined (work, work program, education or training, community service)</span></label>${badge(hrsMet(),hoursTotal()?hoursTotal()+' hours':'','80 hours')}</div>
       <p class="hint">Check the box if you already know, or enter hours and it adds them up. If the person has no income, check whether their activities add up to 80 hours.</p>
       <div class="hours">${[['work','Work'],['prog','Work program'],['edu','Education or training'],['comm','Community service']].map(([k,l])=>`<label for="h_${k}">${l}<input type="number" min="0" step="1" id="h_${k}" data-h="${k}" value="${esc(S.h[k])}"></label>`).join('')}</div>
       <p class="hint">Total: <span class="total">${t}</span> of 80 hours</p>${hrsMet()?srcRow('wr-hrs'):''}</div>
    </div>
-   ${wrMet().length?'':`<label class="choice none" style="border:1px solid var(--line);border-radius:8px"><input type="checkbox" id="wrNone" data-k="wrNone" ${S.wrNone?'checked':''}><span>No proof of meeting any of these</span></label>${S.wrNone?srcRow('wrNone'):''}`}${wrMet().length||S.wrNone?srcNote:''}${inl(4)}
-   ${policy(['80 hours: any mix of work, community service, work program, and education.'],'Work requirements',T_INC+T_WR)}
+   ${wrMet().length?'':`<label class="choice none" style="border:1px solid var(--line);border-radius:8px"><input type="checkbox" id="wrNone" data-k="wrNone" ${S.wrNone?'checked':''}><span>No verification of meeting any of these</span></label>${S.wrNone?srcRow('wrNone'):''}`}${wrMet().length||S.wrNone?srcNote:''}${inl(4)}
+   ${POL.s4()}
    ${noteBox(4)}`);
  }
  if(o.stop>=5){
-  h+=step(5,'Step 5','Send a noncompliance notice. Did the person show proof within 30 days?',`
-   <label class="f" for="noticeDate_m">Date notice sent${mp("noticeDate")}</label>
+  h+=step(5,'Step 5','Send an RFV notice. Was verification received within 30 days?',`
+   <p class="hint">The system will automatically attach the noncompliance notice to the RFV (request for verification).</p>
+   <label class="f" for="noticeDate" style="max-width:220px">Verification request date (RFV sent)<input type="date" id="noticeDate" data-k="noticeDate" value="${esc(S.noticeDate)}" min="2026-12-01" max="2030-12-31"></label>${S.noticeDate?`<p class="hint">Due date (30 calendar days from the verification request date): <strong>${esc(fmtDay(addDays(S.noticeDate,30)))}</strong></p>`:''}
    <p class="hint">${S.type==='review'?'At review, the person keeps coverage during the 30 days.':'At application, the person is not enrolled while they respond.'}</p>
-   <div class="row"><button type="button" class="btn" data-s5="proof" aria-pressed="${S.s5==='proof'}">Showed proof</button><button type="button" class="btn" data-s5="none" aria-pressed="${S.s5==='none'}">No response, or proof not enough</button></div>${inl(5)}
-   ${policy(['The person has 30 days to show they met a requirement or have an exception.','If they don’t: deny the application, or end coverage at the end of the month after the 30 days. Include appeal rights.','<span class="nd">[ND to confirm: notice name, and whether a request for information comes first.]</span>'],'Noncompliance and verification')}
+   <div class="row"><button type="button" class="btn" data-s5="proof" aria-pressed="${S.s5==='proof'}">Verification received</button><button type="button" class="btn" data-s5="none" aria-pressed="${S.s5==='none'}">No response, or insufficient verification</button></div>${inl(5)}
+   ${POL.s5()}
    ${noteBox(5)}`);
  }
  if(o.res){const[c,t,d]=RES[o.res];h+=`<section class="result ${c}" aria-live="polite"><h2>${t}</h2><p>${d}</p></section>`;}
@@ -415,46 +443,52 @@ function render(){
  writeNotes(o);
 }
 
+let EDITED=false;let LASTKEYS=new Set();
+function setEdited(v){EDITED=v;document.getElementById('editNote').hidden=!v;}
 function writeNotes(o){
- const lb=lookback(); const P=[]; const SRCTXT={'Data match (ex parte)':'verified by data match','What the person reported':'as reported by the person','Proof the person sent':'verified by proof','Not verified yet (need proof)':'not verified yet'};const src=v=>v?` (${SRCTXT[v]||v})`:'';
- const w=n=>S.notes[n]?' Worker note: '+S.notes[n].trim():'';
+ const lb=lookback(); const P=[]; const SRCTXT={'Client Statement':'verified by client statement','Collateral Contact':'verified by collateral contact','Hard Copy':'verified by hard copy','Interface':'verified by interface','Pending':'verification pending'};const src=v=>v?` (${SRCTXT[v]||v})`:'';
+ const w=n=>S.notes[n]?' '+S.notes[n].trim():'';
  const chip=document.getElementById('lbChip');
  chip.innerHTML=lb?`<span class="chip">Lookback period: ${esc(lb)}</span>`:'';
- if(!S.type){document.getElementById('notesOut').textContent='Choose application or review to start.';return;}
- const wn=win();P.push(`Work requirements review (${S.type==='application'?'application':(S.rvKind==='desk'?'desk review':'review')}).`+(lb?` Lookback period: ${lb}${S.type==='application'?', the month before the person applied.':(wn.length?`, one month in ${rvManual()?'the lookback period':'the '+rvLen()+' months since the person was last certified'} (${fmtMonth(wn[0])} through ${fmtMonth(wn[wn.length-1])}).`:'.')}`:''));
- const tr=S.tried.filter(t=>t.m!==S.renewMonth);if(S.type==='review'&&tr.length)P.push('Months already checked: '+tr.map(t=>fmtMonth(t.m)+' ('+t.r+')').join('; ')+'.');
- if(S.s1==='no'){P.push('Person is not in Medicaid Expansion (ages 19 to 64), so they are not subject to work requirements.'+w(1));}
- else if(S.s1==='yes'){P.push('Person is in Medicaid Expansion (ages 19 to 64), so work requirements may apply.'+w(1));}
- if(o.stop>=2){
+ if(!S.type){if(!EDITED)document.getElementById('notesOut').value='Choose application or review to start.';return;}
+ let sec='head';const PP=t=>P.push({k:sec,t});
+ const wn=win();PP(`Work requirements decision (${S.type==='application'?'application':(S.rvKind==='desk'?'desk review':'review')}).`+(lb?` Lookback period: ${lb}${S.type==='application'?', the month before the person applied.':(wn.length?`, one month in ${rvManual()?'the lookback period':'the '+rvLen()+' months since the person was last certified'} (${fmtMonth(wn[0])} through ${fmtMonth(wn[wn.length-1])}).`:'.')}`:''));
+ sec='tried';const tr=S.tried.filter(t=>t.m!==S.renewMonth);if(S.type==='review'&&tr.length)PP('Months already checked: '+tr.map(t=>fmtMonth(t.m)+' ('+t.r+')').join('; ')+'.');
+ sec='s1';if(S.s1==='no'){PP('Person is not in Medicaid Expansion (ages 19 to 64), so they are not subject to work requirements.'+w(1));}
+ else if(S.s1==='yes'){PP('Person is in Medicaid Expansion (ages 19 to 64), so work requirements may apply.'+w(1));}
+ sec='s2';if(o.stop>=2){
   if(S.excl.length){const names=S.excl.map(k=>EXCL.find(e=>e[0]===k)[1].split(' (')[0].replace(/^./,c=>c.toLowerCase())+src(S.src['excl-'+k]));
-   P.push(`Exclusion true for the ${exMonth()}: ${names.join('; ')}. Person is not subject to work requirements.`+w(2));}
-  else if(S.exclNone){P.push(`No exclusions are true for the ${exMonth()}, so the person is subject to work requirements.`+w(2));}
+   PP(`Exclusion true for the ${exMonth()}: ${names.join('; ')}. Person is not subject to work requirements.`+w(2));}
+  else if(S.exclNone){PP(`No exclusions are true for the ${exMonth()}, so the person is subject to work requirements.`+w(2));}
  }
- if(o.stop>=3){
+ sec='s3';if(o.stop>=3){
   if(S.exc.length){const names=S.exc.map(k=>k==='pastexcl'?(S.pastWhich.length?'List 1 exclusion during the lookback period ('+S.pastWhich.map(x=>EXCL.find(e=>e[0]===x)[1].split(' (')[0].replace(/^./,c=>c.toLowerCase())+src(S.src['pw-'+x])).join(', ')+')':'List 1 exclusion during the lookback period'):EXC.find(e=>e[0]===k)[1].split(',')[0].split(' (for example')[0].replace(/^./,c=>c.toLowerCase())+src(S.src['exc-'+k]));
-   P.push(`Mandatory exception in the lookback period${lb?' ('+lb+')':''}: ${names.join('; ')}. Person is deemed compliant; no proof of activities needed.`+w(3));}
-  else if(S.excNone){P.push(`No mandatory exceptions in the lookback period.`+w(3));}
+   PP(`Mandatory exception in the lookback period${lb?' ('+lb+')':''}: ${names.join('; ')}. Person is deemed compliant; no verification of activities needed.`+w(3));}
+  else if(S.excNone){PP(`No mandatory exceptions in the lookback period.`+w(3));}
  }
- if(o.stop>=4){const met=wrMet();
+ sec='s4';if(o.stop>=4){const met=wrMet();
   const parts=[];const hb=[['work','work'],['prog','work program'],['edu','education or training'],['comm','community service']].filter(([k])=>num(S.h[k])>0).map(([k,l])=>`${l} ${num(S.h[k])}`);
   if(met.length){
-   const what=met.map(m=>(m.startsWith('80 hours')?`80 hours combined (${hoursTotal()} hours: ${hb.join(', ')})`:m.replace('Monthly ACA household income $','monthly ACA household income of $').replace('Seasonal worker: average monthly household income $','seasonal worker with average monthly household income of $').replace('Enrolled in school at least half-time','enrolled in school at least half-time'))+src(S.src[m.startsWith('80 hours')?'wr-hrs':(m.startsWith('Enrolled')?'wr-school':'wr-inc')]));
-   if(o.res==='pending')P.push(`Person reported meeting work requirements in ${lb||'the lookback period'}: ${what.join('; ')}. Not verified yet; requesting proof.`+w(4));
-   else P.push(`Person meets work requirements in ${lb||'the lookback period'}: ${what.join('; ')}.`+w(4));}
-  else if(S.wrNone){P.push(`No proof that the person met a work requirement in ${lb||'the lookback period'}`+(hoursTotal()?` (${hoursTotal()} hours reported, under 80)`:'')+src(S.src.wrNone)+'.'+w(4));}
+   const what=met.map(m=>(m.startsWith('80 hours')?'80-Hour Test: ':(m.startsWith('Enrolled')?'Student Test: ':'Income Test: '))+(m.startsWith('80 hours')?`80 hours combined (${hoursTotal()} hours: ${hb.join(', ')})`:m.replace('Monthly ACA household income $','monthly ACA household income of $').replace('Seasonal worker: average monthly household income $','seasonal worker with average monthly household income of $').replace('Enrolled in school at least half-time','enrolled in school at least half-time'))+src(S.src[m.startsWith('80 hours')?'wr-hrs':(m.startsWith('Enrolled')?'wr-school':'wr-inc')]));
+   if(o.res==='pending')PP(`Person reported meeting work requirements in ${lb||'the lookback period'}: ${what.join('; ')}. Verification pending.`+w(4));
+   else PP(`Person meets work requirements in ${lb||'the lookback period'}: ${what.join('; ')}.`+w(4));}
+  else if(S.wrNone){PP(`No verification that the person met a work requirement in ${lb||'the lookback period'}`+(hoursTotal()?` (${hoursTotal()} hours reported, under 80)`:'')+src(S.src.wrNone)+'.'+w(4));}
  }
- if(o.stop>=5&&(S.s5||S.noticeDate)){
-  let t='Noncompliance notice sent'+(S.noticeDate?' ('+fmtMonth(S.noticeDate)+')':'')+'; person has 30 days to show proof.';
-  if(S.s5==='proof')t+=' Proof received within 30 days; person meets work requirements.';
-  if(S.s5==='none')t+=' No response, or proof not enough. '+(S.type==='application'?'Application denied':'Coverage ends')+', with appeal rights.';
-  P.push(t+w(5));
+ sec='s5';if(o.stop>=5&&(S.s5||S.noticeDate)){
+  let t='RFV notice sent'+(S.noticeDate?' on '+fmtDay(S.noticeDate):'')+', with noncompliance notice attached; verification due'+(S.noticeDate?' '+fmtDay(addDays(S.noticeDate,30)):' within 30 calendar days')+'.';
+  PP(t);sec='s5:'+S.s5;
+  if(S.s5==='proof')PP('Verification received within 30 days; person meets work requirements.'+w(5));
+  else if(S.s5==='none')PP('No response, or insufficient verification. '+(S.type==='application'?'Application denied':'Coverage ends')+', with appeal rights.'+w(5));
  }
- if(o.res)P.push('Result: '+RES[o.res][1].replace(/<[^>]+>/g,'')+'.');
- document.getElementById('notesOut').textContent=P.join('\n\n');
+ sec='result:'+o.res;if(o.res)PP('Result: '+RES[o.res][1].replace(/<[^>]+>/g,'')+'.');
+ const ta=document.getElementById('notesOut');
+ if(!EDITED){ta.value=P.map(x=>x.t).join('\n\n');LASTKEYS=new Set(P.map(x=>x.k));return;}
+ const add=P.filter(x=>!LASTKEYS.has(x.k));
+ if(add.length){ta.value=ta.value.replace(/\s+$/,'')+'\n\n'+add.map(x=>x.t).join('\n\n');add.forEach(x=>LASTKEYS.add(x.k));}
 }
 
 function touch(){if(isExample){isExample=false;}}
-document.addEventListener('click',e=>{
+document.addEventListener('click',e=>{const vb=e.target.closest('[data-view]');if(vb){VIEW=vb.dataset.view;render();window.scrollTo(0,document.querySelector('.viewbar').offsetTop-10);return;}
  const b=e.target.closest('button');if(!b)return;
  if(b.dataset.type){touch();S.type=b.dataset.type;render();}
  else if(b.dataset.rv){touch();S.rvKind=b.dataset.rv;S.renewMonth='';render();}
@@ -462,10 +496,11 @@ document.addEventListener('click',e=>{
  else if(b.dataset.seas){touch();S.seasonal=b.dataset.seas==='1';render();}
  else if(b.dataset.s1){touch();S.s1=b.dataset.s1;render();}
  else if(b.dataset.s5){touch();S.s5=b.dataset.s5;render();}
- else if(b.id==='newCase'||b.id==='resetBtn'||b.id==='topReset'){S=blank();isExample=false;render();document.getElementById('copyStatus').textContent='';window.scrollTo({top:0});}
- else if(b.id==='copyBtn'){const txt=document.getElementById('notesOut').textContent;const st=document.getElementById('copyStatus');
+ else if(b.id==='regenBtn'){setEdited(false);writeNotes(outcome());}
+ else if(b.id==='newCase'||b.id==='resetBtn'||b.id==='topReset'){setEdited(false);S=blank();isExample=false;render();document.getElementById('copyStatus').textContent='';window.scrollTo({top:0});}
+ else if(b.id==='copyBtn'){const txt=document.getElementById('notesOut').value;const st=document.getElementById('copyStatus');
   try{navigator.clipboard.writeText(txt).then(()=>{st.textContent='Copied. Paste into the system narrative.';},()=>fallback());}catch(err){fallback();}
-  function fallback(){const r=document.createRange();r.selectNodeContents(document.getElementById('notesOut'));const sel=getSelection();sel.removeAllRanges();sel.addRange(r);st.textContent='Narrative selected. Press Ctrl+C (or Cmd+C) to copy.';}}
+  function fallback(){const ta=document.getElementById('notesOut');ta.focus();ta.select();st.textContent='Narrative selected. Press Ctrl+C (or Cmd+C) to copy.';}}
 });
 document.addEventListener('change',e=>{const t=e.target;
  if(t.dataset.excl){touch();const k=t.dataset.excl;S.excl=t.checked?[...S.excl,k]:S.excl.filter(x=>x!==k);if(t.checked)S.exclNone=false;render();}
@@ -480,7 +515,7 @@ document.addEventListener('change',e=>{const t=e.target;
  else if(t.dataset.h){touch();S.h[t.dataset.h]=t.value;setTimeout(render,0);}
  else if(t.dataset.sm){touch();S.sm[+t.dataset.sm]=t.value;setTimeout(render,0);}
 });
-document.addEventListener('input',e=>{const t=e.target;
+document.addEventListener('input',e=>{const t=e.target;if(t.id==='notesOut'){setEdited(true);return;}
  if(t.dataset.note){touch();S.notes[t.dataset.note]=t.value;writeNotes(outcome());}
 });
 render();
